@@ -6,31 +6,31 @@ import pandas as pd
 class InsightService:
     @staticmethod
     def make_share(df: pd.DataFrame) -> pd.Series:
-        return (df["Make"].value_counts(normalize=True) * 100).round(1)
+        return (df["make"].value_counts(normalize=True) * 100).round(1)
 
     @staticmethod
     def make_summary(df: pd.DataFrame) -> pd.DataFrame:
-        return df.groupby("Make").agg(
-            count=("Make", "size"),
-            avg_age=("Age", "mean"),
-            avg_salary=("Salary", "mean"),
-            avg_partner_salary=("Partner_salary", "mean"),
-            avg_total_salary=("Total_salary", "mean"),
-            avg_price=("Price", "mean"),
-            avg_dependents=("No_of_Dependents", "mean"),
+        return df.groupby("make").agg(
+            count=("make", "size"),
+            avg_age=("age", "mean"),
+            avg_salary=("salary", "mean"),
+            avg_partner_salary=("partner_salary", "mean"),
+            avg_total_salary=("total_salary", "mean"),
+            avg_price=("price", "mean"),
+            avg_dependents=("no_of_dependents", "mean"),
         ).round(2)
 
     @staticmethod
     def business_insights(df: pd.DataFrame) -> list[str]:
-        make_share = (df["Make"].value_counts(normalize=True) * 100).round(1)
-        make_summary = df.groupby("Make").agg(
-            avg_age=("Age", "mean"),
-            avg_total_salary=("Total_salary", "mean"),
-            avg_price=("Price", "mean"),
+        make_share = (df["make"].value_counts(normalize=True) * 100).round(1)
+        make_summary = df.groupby("make").agg(
+            avg_age=("age", "mean"),
+            avg_total_salary=("total_salary", "mean"),
+            avg_price=("price", "mean"),
         ).round(2)
 
         insights = []
-
+  
         top_make = make_share.idxmax()
         insights.append(
             f"{top_make} is the most preferred car type in the dataset "
@@ -55,11 +55,12 @@ class InsightService:
             f"({make_summary['avg_price'].max():,.0f}), so it should be targeted to higher-income segments."
         )
 
-        house_loan_table = pd.crosstab(df["House_loan"], df["Make"])
-        if "SUV" in house_loan_table.columns and house_loan_table.loc["Yes", "SUV"] == 0:
-            insights.append(
-                "Customers with a house loan did not purchase SUVs in this dataset, "
-                "which suggests debt burden is linked to lower vehicle choice."
-            )
+        house_loan_table = pd.crosstab(df["house_loan"], df["make"])
+        if "SUV" in house_loan_table.columns and "Yes" in house_loan_table.index:
+            if house_loan_table.loc["Yes", "SUV"] == 0:
+                insights.append(
+                    "Customers with a house loan did not purchase SUVs in this dataset, "
+                    "which suggests debt burden is linked to lower vehicle choice."
+                )
 
         return insights

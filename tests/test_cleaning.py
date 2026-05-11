@@ -23,7 +23,7 @@ def test_total_salary_validation():
         "Partner_salary": [20000],
         "Total_salary": [1],
         "Price": [25000],
-        "Make": ["Hatchback"]
+        "make": ["Hatchback"]
     })
 
     cleaned = DataCleaner.validate_salary_total(df)

@@ -58,6 +58,6 @@ class Visualizer:
         plt.figure(figsize=(10, 6))
         corr = df[cols].corr()
         sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f")
-        plt.title("Correlation Heatmap")
+        plt.title("Austro Correlation Heatmap")
         plt.tight_layout()
         plt.show()
