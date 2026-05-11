@@ -51,7 +51,7 @@ class DataCheck:
         iqr = q3 - q1 
         lower = q1 - 1.5 * iqr 
         upper = q3 + 1.5 * iqr 
-        outliers = df[(df[column] < lower | df[column] > upper)]
+        outliers = df[(df[column] < lower) | (df[column] > upper)]
         return {
             "column": column,
             "lower_bound": lower, 
